@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: argon-webapp
+  name: argon-webapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: argon-webapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: argon-webapp
+    spec:
+      containers:
+      - image: gcr.io/my-kubernates-369405/argon-dashboard-mui:v1
+        name: webapp
+        imagePullPolicy: Always
+        resources: {}
+        ports:
+          - containerPort: 80 
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: argon-webapp
+  labels:
+    run: argon-webapp
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+  selector:
+    app: argon-webapp
+  type: LoadBalancer
